@@ -11,7 +11,6 @@ set(NCGUN_GRAMMER_DIR ${PROJECT_SOURCE_DIR}/src/g4)
 set(NCGUN_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 
 
-
 include_directories(${ANTLR4_INCLUDE_DIR}
                     ${ANTLR4_INCLUDE_DIR}/atn 
                     ${ANTLR4_INCLUDE_DIR}/dfa 
@@ -22,13 +21,6 @@ include_directories(${ANTLR4_INCLUDE_DIR}
                     ${ANTLR4_INCLUDE_DIR}/tree/xpath
                     ${NCGUN_GRAMMER_DIR}
                     )
-
-
-# include_directories(lib/antlr4/include/antlr4-runtime)
-
-
-# add_subdirectory(src)
-
 
 aux_source_directory(./src NCG_SOURCE_DIR)
 aux_source_directory(./src/g4 NCG_G4_DIR)
