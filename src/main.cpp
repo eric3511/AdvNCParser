@@ -16,11 +16,9 @@ int main(int argc, char **argv){
     CommonTokenStream tokens(&lexer);
 
     tokens.fill();
-    std::cout<<"ssss"<<std::endl;
     for(auto token : tokens.getTokens()){
         std::cout<< token->toString()<<std::endl;
     }
-
 
     std::cout<<"hello antlr4"<<std::endl;
 
