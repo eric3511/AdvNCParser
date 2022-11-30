@@ -2,8 +2,8 @@
 #include<string>
 
 #include "antlr4-runtime.h"
-#include "TLexer.h"
-#include "TParser.h"
+#include "NCLexer.h"
+#include "NCParser.h"
 
 using namespace antlr4;
 
@@ -11,8 +11,8 @@ using namespace antlr4;
 int main(int argc, char **argv){
 
 
-    ANTLRInputStream input(u8"🍴 = 🍐 + \"😎\";(((x * π))) * µ + ∰; a + (x * (y ? 0 : 1) + z);");
-    TLexer lexer(&input);
+    ANTLRInputStream input("DEF INT A89");
+    NCLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
 
     tokens.fill();
@@ -20,7 +20,6 @@ int main(int argc, char **argv){
         std::cout<< token->toString()<<std::endl;
     }
 
-    std::cout<<"hello antlr4"<<std::endl;
 
     return 0;
 }
