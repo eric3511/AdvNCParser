@@ -16,11 +16,20 @@
 class  NCParserBaseListener : public NCParserListener {
 public:
 
+  virtual void enterProg(NCParser::ProgContext * /*ctx*/) override { }
+  virtual void exitProg(NCParser::ProgContext * /*ctx*/) override { }
+
   virtual void enterVarDefinition(NCParser::VarDefinitionContext * /*ctx*/) override { }
   virtual void exitVarDefinition(NCParser::VarDefinitionContext * /*ctx*/) override { }
 
   virtual void enterLiteral(NCParser::LiteralContext * /*ctx*/) override { }
   virtual void exitLiteral(NCParser::LiteralContext * /*ctx*/) override { }
+
+  virtual void enterExpressionList(NCParser::ExpressionListContext * /*ctx*/) override { }
+  virtual void exitExpressionList(NCParser::ExpressionListContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCall(NCParser::FunctionCallContext * /*ctx*/) override { }
+  virtual void exitFunctionCall(NCParser::FunctionCallContext * /*ctx*/) override { }
 
   virtual void enterExpression(NCParser::ExpressionContext * /*ctx*/) override { }
   virtual void exitExpression(NCParser::ExpressionContext * /*ctx*/) override { }

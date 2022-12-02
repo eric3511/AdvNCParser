@@ -1,4 +1,4 @@
-## A suitable NC Parser for Siemens 840D
+## A suitable NC parser for siemens 840D
 
 ### ENV
 

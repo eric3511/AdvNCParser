@@ -43,32 +43,55 @@ void ncparserParserInitialize() {
   assert(ncparserParserStaticData == nullptr);
   auto staticData = std::make_unique<NCParserStaticData>(
     std::vector<std::string>{
-      "varDefinition", "literal", "expression", "primary", "primitiveType"
+      "prog", "varDefinition", "literal", "expressionList", "functionCall", 
+      "expression", "primary", "primitiveType"
     },
     std::vector<std::string>{
-      "", "'DEF'", "'INT'", "'REAL'", "'BOOL'", "'<'", "'>'", "'='", "'AND'", 
-      "'OR'", "'+'", "'-'", "'*'", "'/'", "'('", "')'", "'['", "']'"
+      "", "'DEF'", "'REDEF'", "'NCK'", "'CHAN'", "'BOOL'", "'CHAR'", "'INT'", 
+      "'REAL'", "'IF'", "'THEN'", "'ELSE'", "'ENDIF'", "'WHILE'", "'ENDWHILE'", 
+      "'B_NOT'", "'B_AND'", "'B_OR'", "'B_XOR'", "", "", "", "", "'=='", 
+      "'<>'", "'AND'", "'OR'", "'NOT'", "'XOR'", "'+'", "'-'", "'*'", "'DIV'", 
+      "'/'", "'MOD'", "'='", "'('", "')'", "'['", "']'", "','"
     },
     std::vector<std::string>{
-      "", "Def", "Int", "Real", "Bool", "LessThan", "GreaterThan", "Equal", 
-      "And", "Or", "Plus", "Minus", "Star", "Div", "LParen", "RParen", "LBrack", 
-      "RBrack", "DecimalLiteral", "BoolLiteral", "ID"
+      "", "DEF", "REDEF", "NCK", "CHAN", "BOOL", "CHAR", "INT", "REAL", 
+      "IF", "THEN", "ELSE", "ENDIF", "WHILE", "ENDWHILE", "B_NOT", "B_AND", 
+      "B_OR", "B_XOR", "LT", "GT", "LE", "GE", "EQ", "NE", "AND", "OR", 
+      "NOT", "XOR", "ADD", "SUB", "MUL", "DIVP", "DIV", "MOD", "ASSIGN", 
+      "LPAREN", "RPAREN", "LBRACK", "RBRACK", "COMMA", "DECIMAL", "BOOLEAN", 
+      "ID", "WS"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,20,43,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,1,0,1,0,1,0,4,0,14,
-  	8,0,11,0,12,0,15,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
-  	1,2,5,2,32,8,2,10,2,12,2,35,9,2,1,3,1,3,3,3,39,8,3,1,4,1,4,1,4,0,1,4,
-  	5,0,2,4,6,8,0,4,1,0,18,19,1,0,12,13,1,0,10,11,1,0,2,4,42,0,10,1,0,0,0,
-  	2,17,1,0,0,0,4,19,1,0,0,0,6,38,1,0,0,0,8,40,1,0,0,0,10,11,5,1,0,0,11,
-  	13,3,8,4,0,12,14,5,20,0,0,13,12,1,0,0,0,14,15,1,0,0,0,15,13,1,0,0,0,15,
-  	16,1,0,0,0,16,1,1,0,0,0,17,18,7,0,0,0,18,3,1,0,0,0,19,20,6,2,-1,0,20,
-  	21,3,6,3,0,21,33,1,0,0,0,22,23,10,3,0,0,23,24,7,1,0,0,24,32,3,4,2,4,25,
-  	26,10,2,0,0,26,27,7,2,0,0,27,32,3,4,2,3,28,29,10,1,0,0,29,30,5,7,0,0,
-  	30,32,3,4,2,1,31,22,1,0,0,0,31,25,1,0,0,0,31,28,1,0,0,0,32,35,1,0,0,0,
-  	33,31,1,0,0,0,33,34,1,0,0,0,34,5,1,0,0,0,35,33,1,0,0,0,36,39,3,2,1,0,
-  	37,39,5,20,0,0,38,36,1,0,0,0,38,37,1,0,0,0,39,7,1,0,0,0,40,41,7,3,0,0,
-  	41,9,1,0,0,0,4,15,31,33,38
+  	4,1,44,92,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+  	7,7,1,0,1,0,3,0,19,8,0,1,1,1,1,1,1,4,1,24,8,1,11,1,12,1,25,1,2,1,2,1,
+  	3,1,3,1,3,5,3,33,8,3,10,3,12,3,36,9,3,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,5,
+  	1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,56,8,5,1,5,1,5,1,5,1,5,1,
+  	5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,
+  	1,5,5,5,81,8,5,10,5,12,5,84,9,5,1,6,1,6,3,6,88,8,6,1,7,1,7,1,7,0,1,10,
+  	8,0,2,4,6,8,10,12,14,0,7,1,0,41,42,1,0,16,18,2,0,31,31,33,33,1,0,29,30,
+  	1,0,19,24,2,0,25,26,28,28,1,0,5,8,99,0,18,1,0,0,0,2,20,1,0,0,0,4,27,1,
+  	0,0,0,6,29,1,0,0,0,8,37,1,0,0,0,10,55,1,0,0,0,12,87,1,0,0,0,14,89,1,0,
+  	0,0,16,19,3,2,1,0,17,19,3,10,5,0,18,16,1,0,0,0,18,17,1,0,0,0,19,1,1,0,
+  	0,0,20,21,5,1,0,0,21,23,3,14,7,0,22,24,5,43,0,0,23,22,1,0,0,0,24,25,1,
+  	0,0,0,25,23,1,0,0,0,25,26,1,0,0,0,26,3,1,0,0,0,27,28,7,0,0,0,28,5,1,0,
+  	0,0,29,34,3,10,5,0,30,31,5,40,0,0,31,33,3,10,5,0,32,30,1,0,0,0,33,36,
+  	1,0,0,0,34,32,1,0,0,0,34,35,1,0,0,0,35,7,1,0,0,0,36,34,1,0,0,0,37,38,
+  	5,43,0,0,38,39,5,36,0,0,39,40,3,6,3,0,40,41,5,37,0,0,41,9,1,0,0,0,42,
+  	43,6,5,-1,0,43,56,3,12,6,0,44,45,5,36,0,0,45,46,3,10,5,0,46,47,5,37,0,
+  	0,47,56,1,0,0,0,48,56,3,8,4,0,49,50,5,30,0,0,50,56,3,10,5,9,51,52,5,15,
+  	0,0,52,56,3,10,5,8,53,54,5,27,0,0,54,56,3,10,5,2,55,42,1,0,0,0,55,44,
+  	1,0,0,0,55,48,1,0,0,0,55,49,1,0,0,0,55,51,1,0,0,0,55,53,1,0,0,0,56,82,
+  	1,0,0,0,57,58,10,7,0,0,58,59,7,1,0,0,59,81,3,10,5,8,60,61,10,6,0,0,61,
+  	62,7,2,0,0,62,81,3,10,5,7,63,64,10,5,0,0,64,65,7,3,0,0,65,81,3,10,5,6,
+  	66,67,10,4,0,0,67,68,7,4,0,0,68,81,3,10,5,5,69,70,10,3,0,0,70,71,7,5,
+  	0,0,71,81,3,10,5,4,72,73,10,1,0,0,73,74,5,35,0,0,74,81,3,10,5,1,75,76,
+  	10,11,0,0,76,77,5,38,0,0,77,78,3,10,5,0,78,79,5,39,0,0,79,81,1,0,0,0,
+  	80,57,1,0,0,0,80,60,1,0,0,0,80,63,1,0,0,0,80,66,1,0,0,0,80,69,1,0,0,0,
+  	80,72,1,0,0,0,80,75,1,0,0,0,81,84,1,0,0,0,82,80,1,0,0,0,82,83,1,0,0,0,
+  	83,11,1,0,0,0,84,82,1,0,0,0,85,88,3,4,2,0,86,88,5,43,0,0,87,85,1,0,0,
+  	0,87,86,1,0,0,0,88,13,1,0,0,0,89,90,7,6,0,0,90,15,1,0,0,0,7,18,25,34,
+  	55,80,82,87
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -117,14 +140,94 @@ antlr4::atn::SerializedATNView NCParser::getSerializedATN() const {
 }
 
 
+//----------------- ProgContext ------------------------------------------------------------------
+
+NCParser::ProgContext::ProgContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+NCParser::VarDefinitionContext* NCParser::ProgContext::varDefinition() {
+  return getRuleContext<NCParser::VarDefinitionContext>(0);
+}
+
+NCParser::ExpressionContext* NCParser::ProgContext::expression() {
+  return getRuleContext<NCParser::ExpressionContext>(0);
+}
+
+
+size_t NCParser::ProgContext::getRuleIndex() const {
+  return NCParser::RuleProg;
+}
+
+void NCParser::ProgContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterProg(this);
+}
+
+void NCParser::ProgContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitProg(this);
+}
+
+NCParser::ProgContext* NCParser::prog() {
+  ProgContext *_localctx = _tracker.createInstance<ProgContext>(_ctx, getState());
+  enterRule(_localctx, 0, NCParser::RuleProg);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(18);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case NCParser::DEF: {
+        enterOuterAlt(_localctx, 1);
+        setState(16);
+        varDefinition();
+        break;
+      }
+
+      case NCParser::B_NOT:
+      case NCParser::NOT:
+      case NCParser::SUB:
+      case NCParser::LPAREN:
+      case NCParser::DECIMAL:
+      case NCParser::BOOLEAN:
+      case NCParser::ID: {
+        enterOuterAlt(_localctx, 2);
+        setState(17);
+        expression(0);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
 //----------------- VarDefinitionContext ------------------------------------------------------------------
 
 NCParser::VarDefinitionContext::VarDefinitionContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* NCParser::VarDefinitionContext::Def() {
-  return getToken(NCParser::Def, 0);
+tree::TerminalNode* NCParser::VarDefinitionContext::DEF() {
+  return getToken(NCParser::DEF, 0);
 }
 
 NCParser::PrimitiveTypeContext* NCParser::VarDefinitionContext::primitiveType() {
@@ -158,7 +261,7 @@ void NCParser::VarDefinitionContext::exitRule(tree::ParseTreeListener *listener)
 
 NCParser::VarDefinitionContext* NCParser::varDefinition() {
   VarDefinitionContext *_localctx = _tracker.createInstance<VarDefinitionContext>(_ctx, getState());
-  enterRule(_localctx, 0, NCParser::RuleVarDefinition);
+  enterRule(_localctx, 2, NCParser::RuleVarDefinition);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -170,17 +273,17 @@ NCParser::VarDefinitionContext* NCParser::varDefinition() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(10);
-    match(NCParser::Def);
-    setState(11);
+    setState(20);
+    match(NCParser::DEF);
+    setState(21);
     primitiveType();
-    setState(13); 
+    setState(23); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(12);
+      setState(22);
       match(NCParser::ID);
-      setState(15); 
+      setState(25); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while (_la == NCParser::ID);
@@ -201,12 +304,12 @@ NCParser::LiteralContext::LiteralContext(ParserRuleContext *parent, size_t invok
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* NCParser::LiteralContext::DecimalLiteral() {
-  return getToken(NCParser::DecimalLiteral, 0);
+tree::TerminalNode* NCParser::LiteralContext::DECIMAL() {
+  return getToken(NCParser::DECIMAL, 0);
 }
 
-tree::TerminalNode* NCParser::LiteralContext::BoolLiteral() {
-  return getToken(NCParser::BoolLiteral, 0);
+tree::TerminalNode* NCParser::LiteralContext::BOOLEAN() {
+  return getToken(NCParser::BOOLEAN, 0);
 }
 
 
@@ -228,7 +331,7 @@ void NCParser::LiteralContext::exitRule(tree::ParseTreeListener *listener) {
 
 NCParser::LiteralContext* NCParser::literal() {
   LiteralContext *_localctx = _tracker.createInstance<LiteralContext>(_ctx, getState());
-  enterRule(_localctx, 2, NCParser::RuleLiteral);
+  enterRule(_localctx, 4, NCParser::RuleLiteral);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -240,17 +343,166 @@ NCParser::LiteralContext* NCParser::literal() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(17);
+    setState(27);
     _la = _input->LA(1);
-    if (!(_la == NCParser::DecimalLiteral
+    if (!(_la == NCParser::DECIMAL
 
-    || _la == NCParser::BoolLiteral)) {
+    || _la == NCParser::BOOLEAN)) {
     _errHandler->recoverInline(this);
     }
     else {
       _errHandler->reportMatch(this);
       consume();
     }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- ExpressionListContext ------------------------------------------------------------------
+
+NCParser::ExpressionListContext::ExpressionListContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+std::vector<NCParser::ExpressionContext *> NCParser::ExpressionListContext::expression() {
+  return getRuleContexts<NCParser::ExpressionContext>();
+}
+
+NCParser::ExpressionContext* NCParser::ExpressionListContext::expression(size_t i) {
+  return getRuleContext<NCParser::ExpressionContext>(i);
+}
+
+std::vector<tree::TerminalNode *> NCParser::ExpressionListContext::COMMA() {
+  return getTokens(NCParser::COMMA);
+}
+
+tree::TerminalNode* NCParser::ExpressionListContext::COMMA(size_t i) {
+  return getToken(NCParser::COMMA, i);
+}
+
+
+size_t NCParser::ExpressionListContext::getRuleIndex() const {
+  return NCParser::RuleExpressionList;
+}
+
+void NCParser::ExpressionListContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterExpressionList(this);
+}
+
+void NCParser::ExpressionListContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitExpressionList(this);
+}
+
+NCParser::ExpressionListContext* NCParser::expressionList() {
+  ExpressionListContext *_localctx = _tracker.createInstance<ExpressionListContext>(_ctx, getState());
+  enterRule(_localctx, 6, NCParser::RuleExpressionList);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(29);
+    expression(0);
+    setState(34);
+    _errHandler->sync(this);
+    _la = _input->LA(1);
+    while (_la == NCParser::COMMA) {
+      setState(30);
+      match(NCParser::COMMA);
+      setState(31);
+      expression(0);
+      setState(36);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FunctionCallContext ------------------------------------------------------------------
+
+NCParser::FunctionCallContext::FunctionCallContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* NCParser::FunctionCallContext::ID() {
+  return getToken(NCParser::ID, 0);
+}
+
+tree::TerminalNode* NCParser::FunctionCallContext::LPAREN() {
+  return getToken(NCParser::LPAREN, 0);
+}
+
+NCParser::ExpressionListContext* NCParser::FunctionCallContext::expressionList() {
+  return getRuleContext<NCParser::ExpressionListContext>(0);
+}
+
+tree::TerminalNode* NCParser::FunctionCallContext::RPAREN() {
+  return getToken(NCParser::RPAREN, 0);
+}
+
+
+size_t NCParser::FunctionCallContext::getRuleIndex() const {
+  return NCParser::RuleFunctionCall;
+}
+
+void NCParser::FunctionCallContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFunctionCall(this);
+}
+
+void NCParser::FunctionCallContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<NCParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFunctionCall(this);
+}
+
+NCParser::FunctionCallContext* NCParser::functionCall() {
+  FunctionCallContext *_localctx = _tracker.createInstance<FunctionCallContext>(_ctx, getState());
+  enterRule(_localctx, 8, NCParser::RuleFunctionCall);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(37);
+    match(NCParser::ID);
+    setState(38);
+    match(NCParser::LPAREN);
+    setState(39);
+    expressionList();
+    setState(40);
+    match(NCParser::RPAREN);
    
   }
   catch (RecognitionException &e) {
@@ -272,6 +524,10 @@ NCParser::PrimaryContext* NCParser::ExpressionContext::primary() {
   return getRuleContext<NCParser::PrimaryContext>(0);
 }
 
+tree::TerminalNode* NCParser::ExpressionContext::LPAREN() {
+  return getToken(NCParser::LPAREN, 0);
+}
+
 std::vector<NCParser::ExpressionContext *> NCParser::ExpressionContext::expression() {
   return getRuleContexts<NCParser::ExpressionContext>();
 }
@@ -280,24 +536,96 @@ NCParser::ExpressionContext* NCParser::ExpressionContext::expression(size_t i) {
   return getRuleContext<NCParser::ExpressionContext>(i);
 }
 
-tree::TerminalNode* NCParser::ExpressionContext::Star() {
-  return getToken(NCParser::Star, 0);
+tree::TerminalNode* NCParser::ExpressionContext::RPAREN() {
+  return getToken(NCParser::RPAREN, 0);
 }
 
-tree::TerminalNode* NCParser::ExpressionContext::Div() {
-  return getToken(NCParser::Div, 0);
+NCParser::FunctionCallContext* NCParser::ExpressionContext::functionCall() {
+  return getRuleContext<NCParser::FunctionCallContext>(0);
 }
 
-tree::TerminalNode* NCParser::ExpressionContext::Plus() {
-  return getToken(NCParser::Plus, 0);
+tree::TerminalNode* NCParser::ExpressionContext::SUB() {
+  return getToken(NCParser::SUB, 0);
 }
 
-tree::TerminalNode* NCParser::ExpressionContext::Minus() {
-  return getToken(NCParser::Minus, 0);
+tree::TerminalNode* NCParser::ExpressionContext::B_NOT() {
+  return getToken(NCParser::B_NOT, 0);
 }
 
-tree::TerminalNode* NCParser::ExpressionContext::Equal() {
-  return getToken(NCParser::Equal, 0);
+tree::TerminalNode* NCParser::ExpressionContext::NOT() {
+  return getToken(NCParser::NOT, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::B_AND() {
+  return getToken(NCParser::B_AND, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::B_OR() {
+  return getToken(NCParser::B_OR, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::B_XOR() {
+  return getToken(NCParser::B_XOR, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::MUL() {
+  return getToken(NCParser::MUL, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::DIV() {
+  return getToken(NCParser::DIV, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::ADD() {
+  return getToken(NCParser::ADD, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::GT() {
+  return getToken(NCParser::GT, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::GE() {
+  return getToken(NCParser::GE, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::LT() {
+  return getToken(NCParser::LT, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::LE() {
+  return getToken(NCParser::LE, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::EQ() {
+  return getToken(NCParser::EQ, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::NE() {
+  return getToken(NCParser::NE, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::AND() {
+  return getToken(NCParser::AND, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::OR() {
+  return getToken(NCParser::OR, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::XOR() {
+  return getToken(NCParser::XOR, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::ASSIGN() {
+  return getToken(NCParser::ASSIGN, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::LBRACK() {
+  return getToken(NCParser::LBRACK, 0);
+}
+
+tree::TerminalNode* NCParser::ExpressionContext::RBRACK() {
+  return getToken(NCParser::RBRACK, 0);
 }
 
 
@@ -328,8 +656,8 @@ NCParser::ExpressionContext* NCParser::expression(int precedence) {
   NCParser::ExpressionContext *_localctx = _tracker.createInstance<ExpressionContext>(_ctx, parentState);
   NCParser::ExpressionContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
-  size_t startState = 4;
-  enterRecursionRule(_localctx, 4, NCParser::RuleExpression, precedence);
+  size_t startState = 10;
+  enterRecursionRule(_localctx, 10, NCParser::RuleExpression, precedence);
 
     size_t _la = 0;
 
@@ -343,74 +671,202 @@ NCParser::ExpressionContext* NCParser::expression(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(20);
-    primary();
-    _ctx->stop = _input->LT(-1);
-    setState(33);
+    setState(55);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
+    case 1: {
+      setState(43);
+      primary();
+      break;
+    }
+
+    case 2: {
+      setState(44);
+      match(NCParser::LPAREN);
+      setState(45);
+      expression(0);
+      setState(46);
+      match(NCParser::RPAREN);
+      break;
+    }
+
+    case 3: {
+      setState(48);
+      functionCall();
+      break;
+    }
+
+    case 4: {
+      setState(49);
+      match(NCParser::SUB);
+      setState(50);
+      expression(9);
+      break;
+    }
+
+    case 5: {
+      setState(51);
+      match(NCParser::B_NOT);
+      setState(52);
+      expression(8);
+      break;
+    }
+
+    case 6: {
+      setState(53);
+      match(NCParser::NOT);
+      setState(54);
+      expression(2);
+      break;
+    }
+
+    default:
+      break;
+    }
+    _ctx->stop = _input->LT(-1);
+    setState(82);
+    _errHandler->sync(this);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(31);
+        setState(80);
         _errHandler->sync(this);
-        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 1, _ctx)) {
+        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
         case 1: {
           _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
           pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(22);
+          setState(57);
 
-          if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(23);
+          if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
+          setState(58);
           _la = _input->LA(1);
-          if (!(_la == NCParser::Star
-
-          || _la == NCParser::Div)) {
+          if (!(((_la & ~ 0x3fULL) == 0) &&
+            ((1ULL << _la) & 458752) != 0)) {
           _errHandler->recoverInline(this);
           }
           else {
             _errHandler->reportMatch(this);
             consume();
           }
-          setState(24);
-          expression(4);
+          setState(59);
+          expression(8);
           break;
         }
 
         case 2: {
           _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
           pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(25);
+          setState(60);
 
-          if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
-          setState(26);
+          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
+          setState(61);
           _la = _input->LA(1);
-          if (!(_la == NCParser::Plus
+          if (!(_la == NCParser::MUL
 
-          || _la == NCParser::Minus)) {
+          || _la == NCParser::DIV)) {
           _errHandler->recoverInline(this);
           }
           else {
             _errHandler->reportMatch(this);
             consume();
           }
-          setState(27);
-          expression(3);
+          setState(62);
+          expression(7);
           break;
         }
 
         case 3: {
           _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
           pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(28);
+          setState(63);
+
+          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
+          setState(64);
+          _la = _input->LA(1);
+          if (!(_la == NCParser::ADD
+
+          || _la == NCParser::SUB)) {
+          _errHandler->recoverInline(this);
+          }
+          else {
+            _errHandler->reportMatch(this);
+            consume();
+          }
+          setState(65);
+          expression(6);
+          break;
+        }
+
+        case 4: {
+          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
+          pushNewRecursionContext(_localctx, startState, RuleExpression);
+          setState(66);
+
+          if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
+          setState(67);
+          _la = _input->LA(1);
+          if (!(((_la & ~ 0x3fULL) == 0) &&
+            ((1ULL << _la) & 33030144) != 0)) {
+          _errHandler->recoverInline(this);
+          }
+          else {
+            _errHandler->reportMatch(this);
+            consume();
+          }
+          setState(68);
+          expression(5);
+          break;
+        }
+
+        case 5: {
+          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
+          pushNewRecursionContext(_localctx, startState, RuleExpression);
+          setState(69);
+
+          if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
+          setState(70);
+          _la = _input->LA(1);
+          if (!(((_la & ~ 0x3fULL) == 0) &&
+            ((1ULL << _la) & 369098752) != 0)) {
+          _errHandler->recoverInline(this);
+          }
+          else {
+            _errHandler->reportMatch(this);
+            consume();
+          }
+          setState(71);
+          expression(4);
+          break;
+        }
+
+        case 6: {
+          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
+          pushNewRecursionContext(_localctx, startState, RuleExpression);
+          setState(72);
 
           if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-          setState(29);
-          match(NCParser::Equal);
-          setState(30);
+          setState(73);
+          match(NCParser::ASSIGN);
+          setState(74);
           expression(1);
+          break;
+        }
+
+        case 7: {
+          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
+          pushNewRecursionContext(_localctx, startState, RuleExpression);
+          setState(75);
+
+          if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
+          setState(76);
+          match(NCParser::LBRACK);
+          setState(77);
+          expression(0);
+          setState(78);
+          match(NCParser::RBRACK);
           break;
         }
 
@@ -418,9 +874,9 @@ NCParser::ExpressionContext* NCParser::expression(int precedence) {
           break;
         } 
       }
-      setState(35);
+      setState(84);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -464,7 +920,7 @@ void NCParser::PrimaryContext::exitRule(tree::ParseTreeListener *listener) {
 
 NCParser::PrimaryContext* NCParser::primary() {
   PrimaryContext *_localctx = _tracker.createInstance<PrimaryContext>(_ctx, getState());
-  enterRule(_localctx, 6, NCParser::RulePrimary);
+  enterRule(_localctx, 12, NCParser::RulePrimary);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -474,20 +930,20 @@ NCParser::PrimaryContext* NCParser::primary() {
     exitRule();
   });
   try {
-    setState(38);
+    setState(87);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case NCParser::DecimalLiteral:
-      case NCParser::BoolLiteral: {
+      case NCParser::DECIMAL:
+      case NCParser::BOOLEAN: {
         enterOuterAlt(_localctx, 1);
-        setState(36);
+        setState(85);
         literal();
         break;
       }
 
       case NCParser::ID: {
         enterOuterAlt(_localctx, 2);
-        setState(37);
+        setState(86);
         match(NCParser::ID);
         break;
       }
@@ -512,16 +968,20 @@ NCParser::PrimitiveTypeContext::PrimitiveTypeContext(ParserRuleContext *parent, 
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* NCParser::PrimitiveTypeContext::Bool() {
-  return getToken(NCParser::Bool, 0);
+tree::TerminalNode* NCParser::PrimitiveTypeContext::BOOL() {
+  return getToken(NCParser::BOOL, 0);
 }
 
-tree::TerminalNode* NCParser::PrimitiveTypeContext::Int() {
-  return getToken(NCParser::Int, 0);
+tree::TerminalNode* NCParser::PrimitiveTypeContext::CHAR() {
+  return getToken(NCParser::CHAR, 0);
 }
 
-tree::TerminalNode* NCParser::PrimitiveTypeContext::Real() {
-  return getToken(NCParser::Real, 0);
+tree::TerminalNode* NCParser::PrimitiveTypeContext::INT() {
+  return getToken(NCParser::INT, 0);
+}
+
+tree::TerminalNode* NCParser::PrimitiveTypeContext::REAL() {
+  return getToken(NCParser::REAL, 0);
 }
 
 
@@ -543,7 +1003,7 @@ void NCParser::PrimitiveTypeContext::exitRule(tree::ParseTreeListener *listener)
 
 NCParser::PrimitiveTypeContext* NCParser::primitiveType() {
   PrimitiveTypeContext *_localctx = _tracker.createInstance<PrimitiveTypeContext>(_ctx, getState());
-  enterRule(_localctx, 8, NCParser::RulePrimitiveType);
+  enterRule(_localctx, 14, NCParser::RulePrimitiveType);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -555,10 +1015,10 @@ NCParser::PrimitiveTypeContext* NCParser::primitiveType() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(40);
+    setState(89);
     _la = _input->LA(1);
     if (!(((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 28) != 0)) {
+      ((1ULL << _la) & 480) != 0)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -578,7 +1038,7 @@ NCParser::PrimitiveTypeContext* NCParser::primitiveType() {
 
 bool NCParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
-    case 2: return expressionSempred(antlrcpp::downCast<ExpressionContext *>(context), predicateIndex);
+    case 5: return expressionSempred(antlrcpp::downCast<ExpressionContext *>(context), predicateIndex);
 
   default:
     break;
@@ -588,9 +1048,13 @@ bool NCParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateI
 
 bool NCParser::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 3);
-    case 1: return precpred(_ctx, 2);
-    case 2: return precpred(_ctx, 1);
+    case 0: return precpred(_ctx, 7);
+    case 1: return precpred(_ctx, 6);
+    case 2: return precpred(_ctx, 5);
+    case 3: return precpred(_ctx, 4);
+    case 4: return precpred(_ctx, 3);
+    case 5: return precpred(_ctx, 1);
+    case 6: return precpred(_ctx, 11);
 
   default:
     break;

@@ -11,7 +11,7 @@ using namespace antlr4;
 int main(int argc, char **argv){
 
 
-    ANTLRInputStream input("DEF INT A89");
+    ANTLRInputStream input("DEF BOOL A123");
     NCLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
 

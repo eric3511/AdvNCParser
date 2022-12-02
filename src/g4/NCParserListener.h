@@ -14,11 +14,20 @@
 class  NCParserListener : public antlr4::tree::ParseTreeListener {
 public:
 
+  virtual void enterProg(NCParser::ProgContext *ctx) = 0;
+  virtual void exitProg(NCParser::ProgContext *ctx) = 0;
+
   virtual void enterVarDefinition(NCParser::VarDefinitionContext *ctx) = 0;
   virtual void exitVarDefinition(NCParser::VarDefinitionContext *ctx) = 0;
 
   virtual void enterLiteral(NCParser::LiteralContext *ctx) = 0;
   virtual void exitLiteral(NCParser::LiteralContext *ctx) = 0;
+
+  virtual void enterExpressionList(NCParser::ExpressionListContext *ctx) = 0;
+  virtual void exitExpressionList(NCParser::ExpressionListContext *ctx) = 0;
+
+  virtual void enterFunctionCall(NCParser::FunctionCallContext *ctx) = 0;
+  virtual void exitFunctionCall(NCParser::FunctionCallContext *ctx) = 0;
 
   virtual void enterExpression(NCParser::ExpressionContext *ctx) = 0;
   virtual void exitExpression(NCParser::ExpressionContext *ctx) = 0;

@@ -12,10 +12,13 @@
 class  NCLexer : public antlr4::Lexer {
 public:
   enum {
-    Def = 1, Int = 2, Real = 3, Bool = 4, LessThan = 5, GreaterThan = 6, 
-    Equal = 7, And = 8, Or = 9, Plus = 10, Minus = 11, Star = 12, Div = 13, 
-    LParen = 14, RParen = 15, LBrack = 16, RBrack = 17, DecimalLiteral = 18, 
-    BoolLiteral = 19, ID = 20
+    DEF = 1, REDEF = 2, NCK = 3, CHAN = 4, BOOL = 5, CHAR = 6, INT = 7, 
+    REAL = 8, IF = 9, THEN = 10, ELSE = 11, ENDIF = 12, WHILE = 13, ENDWHILE = 14, 
+    B_NOT = 15, B_AND = 16, B_OR = 17, B_XOR = 18, LT = 19, GT = 20, LE = 21, 
+    GE = 22, EQ = 23, NE = 24, AND = 25, OR = 26, NOT = 27, XOR = 28, ADD = 29, 
+    SUB = 30, MUL = 31, DIVP = 32, DIV = 33, MOD = 34, ASSIGN = 35, LPAREN = 36, 
+    RPAREN = 37, LBRACK = 38, RBRACK = 39, COMMA = 40, DECIMAL = 41, BOOLEAN = 42, 
+    ID = 43, WS = 44
   };
 
   explicit NCLexer(antlr4::CharStream *input);
